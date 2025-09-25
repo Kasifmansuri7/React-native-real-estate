@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import { Text, View } from "react-native";
 import "./global.css";
 
@@ -11,6 +12,7 @@ export default function App() {
       <Text className="text-3xl font-rubik">Kashif</Text>
       <Text className="text-3xl font-rubik">Welcome to ReState</Text>
       <Text className="text-3xl">Kashif</Text>
+      <Link href={"/sign-in"}>SignIn</Link>
     </View>
   );
 }
