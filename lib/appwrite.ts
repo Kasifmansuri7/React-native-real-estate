@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import {
@@ -84,13 +85,23 @@ export async function getSessionUser() {
     if (response.$id) {
       // Get initials avatar
       const userAvatar = await avatar.getInitials({
-        name: response.name || "U",
+        name: response.name || response.email,
       });
-      return { ...response, avatar: userAvatar.toString() };
+
+      // Convert ArrayBuffer to Base64
+      const base64 = Buffer.from(userAvatar).toString("base64");
+      const avatarUri = `data:image/png;base64,${base64}`;
+
+      return { ...response, avatar: avatarUri };
     }
 
     return response;
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.code === 401) {
+      // No session found
+      return null;
+    }
+
     console.log("Get user error: ", error);
     return null;
   }
