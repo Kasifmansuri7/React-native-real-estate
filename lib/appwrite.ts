@@ -9,9 +9,10 @@ import {
   OAuthProvider,
 } from "react-native-appwrite";
 
-export const configs = {
+export const config = {
   endPoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
+  databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
   agentTableId: process.env.EXPO_PUBLIC_APPWRITE_AGENT_TABLE_ID,
   galleryTableId: process.env.EXPO_PUBLIC_APPWRITE_GALLERY_TABLE_ID,
   reviewTableId: process.env.EXPO_PUBLIC_APPWRITE_REVIEW_TABLE_ID,
@@ -22,8 +23,8 @@ export const configs = {
 export const client = new Client();
 
 client
-  .setEndpoint(configs.endPoint as string) // Your Appwrite Endpoint
-  .setProject(configs.projectId as string); // Your project ID
+  .setEndpoint(config.endPoint as string) // Your Appwrite Endpoint
+  .setProject(config.projectId as string); // Your project ID
 
 // Export services
 export const avatar = new Avatars(client);

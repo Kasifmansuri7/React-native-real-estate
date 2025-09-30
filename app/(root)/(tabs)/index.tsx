@@ -4,8 +4,16 @@ import Filters from "@/components/Filters";
 import Search from "@/components/Search";
 import icons from "@/constants/icons";
 import { useGlobalContext } from "@/lib/global-provider";
+import seed from "@/lib/seed";
 import React from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const index = () => {
@@ -13,6 +21,12 @@ const index = () => {
 
   return (
     <SafeAreaView className="bg-white h-full">
+      {false && (
+        <Button
+          title="Seed"
+          onPress={seed}
+        />
+      )}
       <FlatList
         data={[1, 2, 3, 4]}
         renderItem={() => <Card />}
