@@ -18,40 +18,39 @@ const Card = ({ onPress }: Props) => {
 
   return (
     <TouchableOpacity
-      onPress={onPress}
-      className="w-60 mt-4 px-3 rounded-lg bg-white shadow-lg shadow-black-100/70 relative">
+      className="flex-1 w-full mt-4 px-3 py-4 rounded-lg bg-white shadow-lg shadow-black-100/70 relative"
+      onPress={onPress}>
       <View className="flex flex-row items-center absolute px-2 top-5 right-5 bg-white/90 p-1 rounded-full z-50">
         <Image
           source={icons.star}
-          className="size-3.5"
+          className="size-2.5"
         />
-        <Text className="text-xs font-rubik-bold text-primary-300 ml-1 ">
-          4.5
+        <Text className="text-xs font-rubik-bold text-primary-300 ml-0.5">
+          {item.rating}
         </Text>
       </View>
 
       <Image
-        source={item?.image}
-        className="w-full h-40 rounded-lg "
+        source={item.image}
+        className="w-full h-40 rounded-lg"
       />
 
       <View className="flex flex-col mt-2">
         <Text className="text-base font-rubik-bold text-black-300">
-          {item?.name}
+          {item.name}
         </Text>
-
-        <Text className="text-xs font-rubik text-black-200">
-          22 Kentucky, USA
+        <Text className="text-xs font-rubik text-black-100">
+          {item.address}
         </Text>
 
         <View className="flex flex-row items-center justify-between mt-2">
           <Text className="text-base font-rubik-bold text-primary-300">
-            $1500
+            ${item.price}
           </Text>
           <Image
             source={icons.heart}
-            className="size-6 w-5 h-5 mr-2"
-            tintColor="#191d31"
+            className="w-5 h-5 mr-2"
+            tintColor="#191D31"
           />
         </View>
       </View>
