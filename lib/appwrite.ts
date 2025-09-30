@@ -12,6 +12,10 @@ import {
 export const configs = {
   endPoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
+  agentTableId: process.env.EXPO_PUBLIC_APPWRITE_AGENT_TABLE_ID,
+  galleryTableId: process.env.EXPO_PUBLIC_APPWRITE_GALLERY_TABLE_ID,
+  reviewTableId: process.env.EXPO_PUBLIC_APPWRITE_REVIEW_TABLE_ID,
+  proppertyTableId: process.env.EXPO_PUBLIC_APPWRITE_PROPERTY_TABLE_ID,
 };
 
 // Create client instance
