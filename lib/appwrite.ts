@@ -17,7 +17,7 @@ export const config = {
   agentTableId: process.env.EXPO_PUBLIC_APPWRITE_AGENT_TABLE_ID,
   galleryTableId: process.env.EXPO_PUBLIC_APPWRITE_GALLERY_TABLE_ID,
   reviewTableId: process.env.EXPO_PUBLIC_APPWRITE_REVIEW_TABLE_ID,
-  proppertyTableId: process.env.EXPO_PUBLIC_APPWRITE_PROPERTY_TABLE_ID,
+  propertyTableId: process.env.EXPO_PUBLIC_APPWRITE_PROPERTY_TABLE_ID,
 };
 
 // Create client instance
@@ -117,7 +117,7 @@ export async function getLatestProperties() {
   try {
     const result = await databases.listDocuments(
       config.databaseId!,
-      config.proppertyTableId!,
+      config.propertyTableId!,
       [Query.orderAsc("$createdAt"), Query.limit(5)],
     );
 
@@ -156,7 +156,7 @@ export async function getProperties({
 
     const result = await databases.listDocuments(
       config.databaseId!,
-      config.proppertyTableId!,
+      config.propertyTableId!,
       buildQuery,
     );
 
@@ -167,17 +167,63 @@ export async function getProperties({
   }
 }
 
+// Helper to fetch multiple documents by IDs
+async function getDocumentsByIds(collectionId: string, ids: string[]) {
+  const promises = ids.map((id) =>
+    databases
+      .getDocument(config.databaseId!, collectionId, id)
+      .catch(() => null),
+  );
+  return await Promise.all(promises);
+}
+
 // write function to get property by id
 export async function getPropertyById({ id }: { id: string }) {
   try {
     const result = await databases.getDocument(
       config.databaseId!,
-      config.proppertyTableId!,
+      config.propertyTableId!,
       id,
     );
-    return result;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+
+    // 2. Populate agent
+    let agent = null;
+    if (result.agent) {
+      try {
+        agent = await databases.getDocument(
+          config.databaseId!,
+          config.agentTableId!,
+          result.agent,
+        );
+      } catch (err) {
+        console.error("Failed to fetch agent:", err);
+      }
+    }
+    // Populate gallery
+    let gallery = [];
+    if (result.galleryIds?.length) {
+      gallery = await getDocumentsByIds(
+        config.databaseId!,
+        config.galleryTableId!,
+        result.galleryIds,
+      );
+    }
+
+    // Populate reviews
+    let reviews = [];
+    if (result.reviewIds?.length) {
+      reviews = await getDocumentsByIds(
+        config.databaseId!,
+        config.reviewTableId!,
+        result.reviewIds,
+      );
+    }
+
+    return {
+      ...result,
+      agent,
+      gallery,
+      reviews,
+    };
+  } catch (error) {}
 }
