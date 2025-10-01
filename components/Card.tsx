@@ -1,21 +1,16 @@
 import icons from "@/constants/icons";
-import images from "@/constants/images";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
+  item: any;
   onPress?: () => void;
 }
 
-const Card = ({ onPress }: Props) => {
-  const item = {
-    rating: 4.5,
-    image: images.newYork,
-    name: "Cozy Studio",
-    address: "22 Kentucky, USA",
-    price: "1500",
-  };
-
+const Card = ({
+  item: { name, image, address, price, ratings },
+  onPress,
+}: Props) => {
   return (
     <TouchableOpacity
       className="flex-1 w-full mt-4 px-3 py-4 rounded-lg bg-white shadow-lg shadow-black-100/70 relative"
@@ -26,26 +21,22 @@ const Card = ({ onPress }: Props) => {
           className="size-2.5"
         />
         <Text className="text-xs font-rubik-bold text-primary-300 ml-0.5">
-          {item.rating}
+          {ratings}
         </Text>
       </View>
 
       <Image
-        source={item.image}
+        source={{ uri: image! }}
         className="w-full h-40 rounded-lg"
       />
 
       <View className="flex flex-col mt-2">
-        <Text className="text-base font-rubik-bold text-black-300">
-          {item.name}
-        </Text>
-        <Text className="text-xs font-rubik text-black-100">
-          {item.address}
-        </Text>
+        <Text className="text-base font-rubik-bold text-black-300">{name}</Text>
+        <Text className="text-xs font-rubik text-black-100">{address}</Text>
 
         <View className="flex flex-row items-center justify-between mt-2">
           <Text className="text-base font-rubik-bold text-primary-300">
-            ${item.price}
+            ${price}
           </Text>
           <Image
             source={icons.heart}

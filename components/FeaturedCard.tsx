@@ -4,16 +4,20 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
+  item: any;
   onPress?: () => void;
 }
 
-const FeaturedCard = ({ onPress }: Props) => {
+const FeaturedCard = ({
+  item: { name, image, address, price, ratings },
+  onPress,
+}: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       className="flex flex-col items-start w-60 h-80 relative">
       <Image
-        source={images.japan}
+        source={{ uri: image }}
         className="size-full rounded-2xl"
       />
 
@@ -28,7 +32,7 @@ const FeaturedCard = ({ onPress }: Props) => {
           className="size-3.5"
         />
         <Text className="text-xs font-rubik-bold text-primary-300 ml-1 ">
-          4.5
+          {ratings}
         </Text>
       </View>
 
@@ -36,15 +40,15 @@ const FeaturedCard = ({ onPress }: Props) => {
         <Text
           className="text-xl font-rubik-extrabold text-white"
           numberOfLines={1}>
-          Modern Apartment
+          {name}
         </Text>
 
-        <Text className="text-base font-rubik text-white">
-          22 Kentucky, USA
-        </Text>
+        <Text className="text-base font-rubik text-white">{address}</Text>
 
         <View className="flex flex-row items-center justify-between w-full">
-          <Text className="text-xl font-rubik-extrabold text-white">$1500</Text>
+          <Text className="text-xl font-rubik-extrabold text-white">
+            $ {price}
+          </Text>
           <Image
             source={icons.heart}
             className="size-6 "
